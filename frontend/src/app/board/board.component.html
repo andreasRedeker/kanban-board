@@ -1,0 +1,5 @@
+<select>
+    @for (board of boards$ | async; track $index) {
+        <option>{{ board.title }}</option>
+    }
+</select>
