@@ -17,7 +17,8 @@ public class BoardService {
         boardRepository.findAll().forEach(boardCollection::add);
         return boardCollection;
     }
-    public void createBoard(Board board) {
+    public void createBoard(BoardDTO boardDTO) {
+        Board board = Board.builder().title(boardDTO.getTitle()).description(boardDTO.getDescription()).build();
         boardRepository.save(board);
     }
 }

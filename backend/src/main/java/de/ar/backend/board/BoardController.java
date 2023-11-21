@@ -1,8 +1,6 @@
 package de.ar.backend.board;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,5 +16,5 @@ public class BoardController {
     public List<Board> getAllBoards() { return boardService.getAllBoards(); }
 
     @PostMapping("/board")
-    public void createBoard(@RequestBody Board board) { boardService.createBoard(board);}
+    public void createBoard(@RequestBody BoardDTO boardDTO) { boardService.createBoard(boardDTO);}
 }

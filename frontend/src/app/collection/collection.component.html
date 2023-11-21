@@ -1,0 +1,6 @@
+{{ collection.title }}
+<ul>
+    @for (task of collection.task; track $index) {
+        <app-task [task]="task"></app-task>
+    }
+</ul>

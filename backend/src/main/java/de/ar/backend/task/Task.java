@@ -1,23 +1,26 @@
-package de.ar.backend.board;
+package de.ar.backend.task;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import de.ar.backend.collection.Collection;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Board {
+public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "board_id")
+    @Column(name = "task_id")
     private long id;
 
     private String title;
@@ -26,6 +29,8 @@ public class Board {
     @CreationTimestamp
     private LocalDateTime dateCreated;
 
-    @OneToMany(mappedBy = "board")
-    private List<Collection> collectionList;
+    @ManyToOne
+    @JoinColumn(name = "collection_id")
+    @JsonIgnore
+    private Collection collection;
 }
