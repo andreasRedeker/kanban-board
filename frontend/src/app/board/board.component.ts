@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BoardService } from './board.service';
 import { Board } from './board.model';
@@ -7,43 +7,86 @@ import { BoardDto } from './board-dto.model';
 import { FormsModule } from '@angular/forms';
 import { Collection } from '../collection/collection.model';
 import { CollectionComponent } from '../collection/collection.component';
+import { CdkDrag, CdkDragDrop, CdkDropList, CdkDragPlaceholder, CdkDropListGroup, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { Task } from '../task/task.model';
+import { TaskService } from '../task/task.service';
+import { TaskDto } from '../task/task-dto.model';
 
 @Component({
   selector: 'app-board',
   standalone: true,
-  imports: [CommonModule, FormsModule, CollectionComponent],
+  imports: [CommonModule, FormsModule, CollectionComponent, CdkDropList, CdkDrag, CdkDragPlaceholder, CdkDropListGroup],
   templateUrl: './board.component.html',
   styleUrl: './board.component.css'
 })
 export class BoardComponent {
 
-  boards$: Observable<Board[]> = new Observable<Board[]>
+  collections: Collection[] = [];
 
-  collectionList$: Observable<Collection[] | null> = new Observable<Collection[] | null>
-
-  boardDto: BoardDto = new BoardDto()
-
-  activeBoardId: number = 0
-
-  constructor(private boardService: BoardService) { }
-
-  ngOnInit() {
-    this.boards$ = this.boardService.getBoards()
-    this.activeBoardId = this.boardService.activeBoardId
-
-    this.collectionList$ = this.getCollectionByBoardId(this.activeBoardId)
+  constructor(private boardService: BoardService, private taskService: TaskService) {
+    this.boardService.getBoards().subscribe(
+      b => {
+        this.collections = b.find(activeBoard => activeBoard.id = 1)?.collectionList || [];
+      }
+    )
   }
 
-  onSubmit() {
-    this.boardService.createBoard(this.boardDto)
+  drop(event: CdkDragDrop<any>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      this.updateItem(event);
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+    }
   }
 
-  getCollectionByBoardId(id: number): Observable<Collection[] | null> {
-    return this.boards$.pipe(
-      map(boards => {
-        const foundBoard = boards.find(board => board.id === id);
-        return foundBoard ? foundBoard.collectionList : null;
-      })
-    );
+  updateItem(input: CdkDragDrop<string[]>) {
+    console.log(input);
+    console.log(`moved ${input.item.data.title} to ${input.container.id}`)
+
+    let movedTask: TaskDto = input.item.data
+    movedTask.collectionId = Number(input.container.id)
+
+    console.log(movedTask)
+
+    this.taskService.updateTaskStatus(movedTask)
   }
+
+
+  // boards$: Observable<Board[]> = new Observable<Board[]>
+
+  // collectionList$: Observable<Collection[] | null> = new Observable<Collection[] | null>
+
+  // collectionsList: Collection[] = [];
+
+  // boardDto: BoardDto = new BoardDto()
+
+  // activeBoardId: number = 0
+
+  // constructor(private boardService: BoardService) { }
+
+  // ngOnInit() {
+  //   this.boards$ = this.boardService.getBoards()
+  //   this.activeBoardId = this.boardService.activeBoardId
+
+  //   this.collectionList$ = this.getCollectionByBoardId(this.activeBoardId)
+  // }
+
+  // onSubmit() {
+  //   this.boardService.createBoard(this.boardDto)
+  // }
+
+  // getCollectionByBoardId(id: number): Observable<Collection[] | null> {
+  //   return this.boards$.pipe(
+  //     map(boards => {
+  //       const foundBoard = boards.find(board => board.id === id);
+  //       return foundBoard ? foundBoard.collectionList : null;
+  //     })
+  //   );
+  // }
 }

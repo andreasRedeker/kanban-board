@@ -1,6 +1,17 @@
-{{ collection.title }}
-<ul>
-    @for (task of collection.task; track $index) {
-        <app-task [task]="task"></app-task>
-    }
-</ul>
+<!-- <form (ngSubmit)="onSubmit()" #collectionForm="ngForm">
+    <h2>Create New Collection</h2>
+    <input type="text" [(ngModel)]="collectionDto.title" placeholder="Title" name="title">
+    <input type="text" [(ngModel)]="collectionDto.description" placeholder="Description" name="description">
+    <button class="bg-slate-50 rounded-lg p-2" type="submit">Save</button>
+</form>  -->
+
+<div class="container p-4 w-60">
+    <div class="py-2">
+        {{ collection.title }}
+    </div>
+    <ul>
+        @for (task of collection.task; track $index) {
+        <app-task [task]="task" cdkDrag></app-task>
+        }
+    </ul>
+</div>

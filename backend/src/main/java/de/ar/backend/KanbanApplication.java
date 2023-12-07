@@ -14,44 +14,58 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class KanbanApplication {
 
-	@Autowired
-	private BoardService boardService;
+    @Autowired
+    private BoardService boardService;
 
-	@Autowired
-	private CollectionService collectionService;
+    @Autowired
+    private CollectionService collectionService;
 
-	@Autowired
-	private TaskService taskService;
+    @Autowired
+    private TaskService taskService;
 
-	public static void main(String[] args) {
-		SpringApplication.run(KanbanApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(KanbanApplication.class, args);
+    }
 
-	@PostConstruct
-	private void postConstruct() {
-		if (boardService.getAllBoards().isEmpty()) {
-			boardService.createBoard(
-					BoardDTO.builder()
-							.title("First Board")
-							.description("This is the first board")
-							.build()
-			);
+    @PostConstruct
+    private void postConstruct() {
+        /*if (boardService.getAllBoards().isEmpty()) {*/
+            boardService.createBoard(
+                    BoardDTO.builder()
+                            .title("First Board")
+                            .description("This is the first board")
+                            .build()
+            );
 
-			collectionService.createCollection(CollectionDTO.builder()
-					.title("First Collection")
-					.description("First Description")
-					.build());
+            collectionService.createCollection(CollectionDTO.builder()
+                    .title("First Collection")
+                    .description("First Description")
+                    .boardId(1)
+                    .build());
 
-			collectionService.createCollection(CollectionDTO.builder()
-					.title("2nd Collection")
-					.description("2nd Description")
-					.build());
+            collectionService.createCollection(CollectionDTO.builder()
+                    .title("2nd Collection")
+                    .description("2nd Description")
+                    .boardId(1)
+                    .build());
 
-			taskService.createTask(TaskDTO.builder()
-					.title("First Task")
-					.description("First Description")
-					.collectionId(1)
-					.build());
-		}
-	}
+            taskService.createTask(TaskDTO.builder()
+                    .title("First Task")
+                    .description("First Task Description")
+                    .collectionId(1)
+                    .build());
+
+            taskService.createTask(TaskDTO.builder()
+                    .title("Second Task")
+                    .description("Second Task Description")
+                    .collectionId(1)
+                    .build());
+
+            taskService.createTask(TaskDTO.builder()
+                    .title("Third Task")
+                    .description("Third Task Description")
+                    .collectionId(2)
+                    .build());
+        /*}*/
+    }
 }

@@ -5,12 +5,18 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BoardService {
 
     @Autowired
     private BoardRepository boardRepository;
+
+    public Board getBoardById(long boardId) {
+        Optional<Board> board = boardRepository.findById(boardId);
+        return board.orElse(null);
+    }
 
     public List<Board> getAllBoards() {
         List<Board> boardCollection = new ArrayList<>();

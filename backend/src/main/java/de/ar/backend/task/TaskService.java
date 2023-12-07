@@ -19,4 +19,11 @@ public class TaskService {
         Task task = Task.builder().title(taskDTO.getTitle()).description(taskDTO.getDescription()).collection(collection).build();
         taskRepository.save(task);
     }
+
+    public void updateTaskStatus(TaskDTO taskDTO) {
+        Task updateTask = taskRepository.findById(taskDTO.getId()).get();
+        Collection collection = collectionRepository.findById(taskDTO.getCollectionId()).get();
+        updateTask.setCollection(collection);
+        taskRepository.save(updateTask);
+    }
 }

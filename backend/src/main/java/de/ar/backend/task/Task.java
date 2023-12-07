@@ -3,10 +3,7 @@ package de.ar.backend.task;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import de.ar.backend.collection.Collection;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
@@ -32,5 +29,6 @@ public class Task {
     @ManyToOne
     @JoinColumn(name = "collection_id")
     @JsonIgnore
+    @NonNull
     private Collection collection;
 }

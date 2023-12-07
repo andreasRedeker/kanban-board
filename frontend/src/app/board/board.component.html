@@ -1,10 +1,38 @@
-<div>
+<div class="board" cdkDropListGroup>
+
+    @for (collection of collections; track collection) {
+
+        <div class="column">
+
+            <div class="column-name">{{ collection.title }} id: {{ collection.id }}</div>
+            
+            <div class="task-list" id="{{ collection.id }}" cdkDropList [cdkDropListData]="collection.task" (cdkDropListDropped)="drop($event)">
+
+                @for (task of collection.task; track task) {
+
+                    <div class="task" [cdkDragData]="task" cdkDrag>
+                        <div class="placeholder" *cdkDragPlaceholder></div>
+                        {{ task.title }}
+                    </div>
+
+                }
+
+            </div>
+        </div>
+
+    }
+
+</div>
+
+<!-- <div>
     <select>
         @for (board of boards$ | async; track $index) {
         <option>{{ board.title }}</option>
         }
     </select>
-</div>
+</div> -->
+
+<!-- CREATE BOARD FORM
 <div>
     <form (ngSubmit)="onSubmit()" #boardForm="ngForm">
         <h2>Create New Board</h2>
@@ -13,10 +41,19 @@
         <button class="bg-slate-50 rounded-lg p-2" type="submit">Save</button>
     </form>
 </div>
-<div>
+-->
+<!--
+<div class="grid grid-flow-col auto-cols-max w-full">
     @for (collection of collectionList$ | async; track $index) {
-        <app-collection [collection]="collection"></app-collection>
+        <app-collection
+            [collection]="collection"
+            cdkDropList
+            id="{{ collection.id }}"
+            [cdkDropListData]="collection"
+            >
+        </app-collection>
     } @empty {
         noch keine Spalten angelegt
     }
 </div>
+-->
