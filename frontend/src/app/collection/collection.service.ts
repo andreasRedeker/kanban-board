@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CollectionDto } from './collection-dto.model copy';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
