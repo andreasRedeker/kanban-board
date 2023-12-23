@@ -8,11 +8,13 @@
             
             <div class="task-list" id="{{ collection.id }}" cdkDropList [cdkDropListData]="collection.task" (cdkDropListDropped)="drop($event)">
 
+                <app-create-task-inline [collectionId]="collection.id" (newTaskEvent)="getBoards()"></app-create-task-inline>
+
                 @for (task of collection.task; track task) {
 
                     <div class="task" [cdkDragData]="task" cdkDrag>
                         <div class="placeholder" *cdkDragPlaceholder></div>
-                        {{ task.title }}
+                        {{ task.title }} <button class="delete" (click)="deleteTask(task.id)">löschen</button>
                     </div>
 
                 }
@@ -25,7 +27,10 @@
     <div class="column">
         <div class="create-wrapper">
             <input [(ngModel)]="newColumnName" (keydown.enter)="createCollection()" class="column-input" type="text" placeholder="Spalte hinzufügen" />
-            <button class="create-button" (click)="createCollection()">Speichern</button>
+            
+            @if (newColumnName.length > 0) {
+                <button class="create-button" (click)="createCollection()">Speichern</button>
+            }
         </div>
     </div>
 

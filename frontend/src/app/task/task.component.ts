@@ -15,7 +15,8 @@ import { TaskService } from './task.service';
 export class TaskComponent {
   @Input() task: Task = new Task()
 
-  taskDto: TaskDto = new TaskDto()
+  // TODO
+  taskDto: TaskDto = new TaskDto('','',1)
 
   constructor(private taskService: TaskService) {}
 

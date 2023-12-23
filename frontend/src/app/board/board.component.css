@@ -33,6 +33,10 @@
     padding: 1em;
     border-radius: 8px;
     background-color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 0.5em;
 }
 
 .placeholder {
@@ -80,6 +84,15 @@
     color: white;
     border-radius: 8px;
     padding: 0.25em;
+}
+
+.delete {
+    visibility: hidden;
+
+}
+
+.task:hover .delete {
+    visibility: visible;
 }
 
 /*  */

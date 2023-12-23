@@ -1,0 +1,9 @@
+<div class="task">
+    <div class="create-wrapper">
+        <input [(ngModel)]="newTaskName" (keydown.enter)="createTask()" class="column-input" type="text" placeholder="Aufgabe hinzufügen" />
+     
+        @if (newTaskName.length > 0) {
+            <button class="create-button" (click)="createTask()">Speichern</button>
+        }
+    </div>
+</div>

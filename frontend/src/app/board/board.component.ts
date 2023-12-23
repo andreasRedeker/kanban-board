@@ -13,13 +13,14 @@ import { TaskService } from '../task/task.service';
 import { TaskDto } from '../task/task-dto.model';
 import { CollectionService } from '../collection/collection.service';
 import { CollectionDto } from '../collection/collection-dto.model';
+import { CreateTaskInlineComponent } from "../create-task-inline/create-task-inline.component";
 
 @Component({
   selector: 'app-board',
   standalone: true,
-  imports: [CommonModule, FormsModule, CollectionComponent, CdkDropList, CdkDrag, CdkDragPlaceholder, CdkDropListGroup],
   templateUrl: './board.component.html',
-  styleUrl: './board.component.css'
+  styleUrl: './board.component.css',
+  imports: [CommonModule, FormsModule, CollectionComponent, CdkDropList, CdkDrag, CdkDragPlaceholder, CdkDropListGroup, CreateTaskInlineComponent]
 })
 export class BoardComponent {
 
@@ -77,6 +78,10 @@ export class BoardComponent {
         this.getBoards()
       })
     }
+  }
+
+  deleteTask(taskId: number) {
+    this.taskService.deleteTask(taskId).subscribe(() => this.getBoards())
   }
 
   // boards$: Observable<Board[]> = new Observable<Board[]>

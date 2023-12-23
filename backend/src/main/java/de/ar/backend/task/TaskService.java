@@ -27,6 +27,10 @@ public class TaskService {
         taskRepository.save(updateTask);
     }
 
+    public void deleteTask(long taskId) {
+        taskRepository.deleteById(taskId);
+    }
+
 //    public void deleteTasksByCollectionId(long collectionId) {
 //        this.taskRepository.deleteByCollection_Id(collectionId);
 //    }

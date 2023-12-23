@@ -1,0 +1,20 @@
+.create-wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+}
+
+.column-input {
+    width: 100%;
+    padding: 0.5em;
+    border-radius: 8px;
+    background-color: white;
+}
+
+.create-button {
+    width: fit-content;
+    background-color: #dc2625;
+    color: white;
+    border-radius: 8px;
+    padding: 0.25em;
+}

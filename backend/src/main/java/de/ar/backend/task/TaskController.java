@@ -17,4 +17,9 @@ public class TaskController {
     public void updateTaskStatus(@RequestBody TaskDTO taskDTO) {
         taskService.updateTaskStatus(taskDTO);
     }
+
+    @DeleteMapping("/task")
+    public void deleteTask(@RequestParam long taskId) {
+        this.taskService.deleteTask(taskId);
+    }
 }
