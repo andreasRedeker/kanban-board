@@ -4,12 +4,14 @@ services:
     build:
       context: ./frontend
       dockerfile: ./Dockerfile
+#    image: andreasredekerregistry.azurecr.io/kanban-frontend
 
   nginx:
     container_name: middlenginx
     build:
       context: ./nginx
       dockerfile: ./Dockerfile
+#    image: andreasredekerregistry.azurecr.io/middlenginx
     ports:
       - "80:80"
     depends_on:
@@ -19,6 +21,7 @@ services:
     build:
       context: ./backend
       dockerfile: ./Dockerfile
+#    image: andreasredekerregistry.azurecr.io/kanban-backend
     depends_on:
       - mariadb
     ports:

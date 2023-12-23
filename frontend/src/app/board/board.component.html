@@ -4,7 +4,7 @@
 
         <div class="column">
 
-            <div class="column-name">{{ collection.title }} id: {{ collection.id }}</div>
+            <div class="column-name">{{ collection.title }} id: {{ collection.id }} <button (click)="deleteCollection(collection.id)">löschen</button></div>
             
             <div class="task-list" id="{{ collection.id }}" cdkDropList [cdkDropListData]="collection.task" (cdkDropListDropped)="drop($event)">
 
@@ -21,6 +21,13 @@
         </div>
 
     }
+
+    <div class="column">
+        <div class="create-wrapper">
+            <input [(ngModel)]="newColumnName" (keydown.enter)="createCollection()" class="column-input" type="text" placeholder="Spalte hinzufügen" />
+            <button class="create-button" (click)="createCollection()">Speichern</button>
+        </div>
+    </div>
 
 </div>
 

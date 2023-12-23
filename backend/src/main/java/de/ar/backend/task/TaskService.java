@@ -26,4 +26,8 @@ public class TaskService {
         updateTask.setCollection(collection);
         taskRepository.save(updateTask);
     }
+
+//    public void deleteTasksByCollectionId(long collectionId) {
+//        this.taskRepository.deleteByCollection_Id(collectionId);
+//    }
 }

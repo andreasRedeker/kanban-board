@@ -29,7 +29,7 @@ public class KanbanApplication {
 
     @PostConstruct
     private void postConstruct() {
-        /*if (boardService.getAllBoards().isEmpty()) {*/
+        if (boardService.getAllBoards().isEmpty()) {
             boardService.createBoard(
                     BoardDTO.builder()
                             .title("First Board")
@@ -66,6 +66,6 @@ public class KanbanApplication {
                     .description("Third Task Description")
                     .collectionId(2)
                     .build());
-        /*}*/
+        }
     }
 }

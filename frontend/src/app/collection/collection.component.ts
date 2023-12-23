@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Collection } from './collection.model';
 import { TaskComponent } from '../task/task.component';
-import { CollectionDto } from './collection-dto.model copy';
+import { CollectionDto } from './collection-dto.model';
 import { CollectionService } from './collection.service';
 import { FormsModule } from '@angular/forms';
 
@@ -16,7 +16,8 @@ import { FormsModule } from '@angular/forms';
 export class CollectionComponent {
   @Input() collection: Collection = new Collection()
 
-  collectionDto: CollectionDto = new CollectionDto()
+  // TODO
+  collectionDto: CollectionDto = new CollectionDto('', '', 0)
 
   constructor(private collectionService: CollectionService) {}
 

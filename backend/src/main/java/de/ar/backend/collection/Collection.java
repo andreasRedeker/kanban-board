@@ -36,6 +36,6 @@ public class Collection {
     @JsonIgnore
     private Board board;
 
-    @OneToMany(mappedBy = "collection")
+    @OneToMany(mappedBy = "collection", cascade =CascadeType.REMOVE)
     private List<Task> task;
 }

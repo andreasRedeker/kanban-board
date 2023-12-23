@@ -48,8 +48,8 @@
     box-sizing: border-box;
     border-radius: 4px;
     box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
-                0 8px 10px 1px rgba(0, 0, 0, 0.14),
-                0 3px 14px 2px rgba(0, 0, 0, 0.12);
+        0 8px 10px 1px rgba(0, 0, 0, 0.14),
+        0 3px 14px 2px rgba(0, 0, 0, 0.12);
 }
 
 .cdk-drag-animating {
@@ -59,3 +59,27 @@
 .task-list.cdk-drop-list-dragging .task:not(.cdk-drag-placeholder) {
     transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
+
+/* Create Column */
+.create-wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+}
+
+.column-input {
+    width: 100%;
+    padding: 0.5em;
+    border-radius: 8px;
+    background-color: white;
+}
+
+.create-button {
+    width: fit-content;
+    background-color: #dc2625;
+    color: white;
+    border-radius: 8px;
+    padding: 0.25em;
+}
+
+/*  */

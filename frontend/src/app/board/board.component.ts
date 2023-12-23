@@ -11,6 +11,8 @@ import { CdkDrag, CdkDragDrop, CdkDropList, CdkDragPlaceholder, CdkDropListGroup
 import { Task } from '../task/task.model';
 import { TaskService } from '../task/task.service';
 import { TaskDto } from '../task/task-dto.model';
+import { CollectionService } from '../collection/collection.service';
+import { CollectionDto } from '../collection/collection-dto.model';
 
 @Component({
   selector: 'app-board',
@@ -23,12 +25,10 @@ export class BoardComponent {
 
   collections: Collection[] = [];
 
-  constructor(private boardService: BoardService, private taskService: TaskService) {
-    this.boardService.getBoards().subscribe(
-      b => {
-        this.collections = b.find(activeBoard => activeBoard.id = 1)?.collectionList || [];
-      }
-    )
+  newColumnName: string = '';
+
+  constructor(private boardService: BoardService, private taskService: TaskService, private collectionService: CollectionService) {
+    this.getBoards()
   }
 
   drop(event: CdkDragDrop<any>) {
@@ -45,6 +45,14 @@ export class BoardComponent {
     }
   }
 
+  getBoards() {
+    this.boardService.getBoards().subscribe(
+      b => {
+        this.collections = b.find(activeBoard => activeBoard.id = 1)?.collectionList || [];
+      }
+    )
+  }
+
   updateItem(input: CdkDragDrop<string[]>) {
     console.log(input);
     console.log(`moved ${input.item.data.title} to ${input.container.id}`)
@@ -57,6 +65,19 @@ export class BoardComponent {
     this.taskService.updateTaskStatus(movedTask)
   }
 
+  deleteCollection(collectionId: number) {
+    this.collectionService.deleteCollection(collectionId).subscribe(() => this.getBoards())
+  }
+
+  createCollection() {
+    if (this.newColumnName.length > 0) {
+      let collectionDto = new CollectionDto(this.newColumnName, '', this.boardService.activeBoardId)
+      this.collectionService.createCollection(collectionDto).subscribe(s => {
+        this.newColumnName = ''
+        this.getBoards()
+      })
+    }
+  }
 
   // boards$: Observable<Board[]> = new Observable<Board[]>
 

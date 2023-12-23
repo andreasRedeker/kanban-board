@@ -10,10 +10,10 @@ COPY src ./src
 
 # COPY ~/.m2/repository/ /root/.m2/repository/
 
-# Lade die Abhängigkeiten herunter und erstelle das Jar
-RUN mvn clean install -DskipTests
+# Lade die Abhängigkeiten herunter und erstelle das Jar mit dem Maven Profil "Docker"
+RUN mvn clean install -Pdocker
 
 # Setze den Startbefehl für das Spring-Boot-Anwendungs-Jar
-CMD ["java", "-jar", "target/kanban-backend.jar"]
+CMD ["java", "-jar", "-Dspring.profiles.active=docker", "target/kanban-backend.jar"]
 
 EXPOSE 8080

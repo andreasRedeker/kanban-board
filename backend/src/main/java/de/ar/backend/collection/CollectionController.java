@@ -19,6 +19,11 @@ public class CollectionController {
 //    @GetMapping("/collections")
 //    public List<Collection> getAllCollections() { return collectionService.getAllCollections(); }
 
+    @DeleteMapping("/collection")
+    public void deleteCollection(@RequestParam long collectionId) {
+        this.collectionService.deleteCollection(collectionId);
+    }
+
     @PostMapping("/collection")
     public void createCollection(@RequestBody CollectionDTO collectionDTO) { collectionService.createCollection(collectionDTO);}
 }
