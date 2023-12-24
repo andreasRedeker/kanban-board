@@ -4,8 +4,9 @@ import de.ar.backend.collection.Collection;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.List;
 
 @Entity
@@ -24,7 +25,10 @@ public class Board {
     private String description;
 
     @CreationTimestamp
-    private LocalDateTime dateCreated;
+    private Instant createdOn;
+
+    @UpdateTimestamp
+    private Instant lastUpdatedOn;
 
     @OneToMany(mappedBy = "board")
     private List<Collection> collectionList;

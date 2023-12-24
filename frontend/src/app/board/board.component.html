@@ -4,7 +4,7 @@
 
         <div class="column">
 
-            <div class="column-name">{{ collection.title }} id: {{ collection.id }} <button (click)="deleteCollection(collection.id)">löschen</button></div>
+            <div class="column-name">{{ collection.title }} id: {{ collection.id }} <button class="delete" (click)="deleteCollection(collection.id)">löschen</button></div>
             
             <div class="task-list" id="{{ collection.id }}" cdkDropList [cdkDropListData]="collection.task" (cdkDropListDropped)="drop($event)">
 

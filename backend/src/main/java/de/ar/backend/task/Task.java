@@ -5,8 +5,9 @@ import de.ar.backend.collection.Collection;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Entity
 @Data
@@ -24,7 +25,10 @@ public class Task {
     private String description;
 
     @CreationTimestamp
-    private LocalDateTime dateCreated;
+    private Instant createdOn;
+
+    @UpdateTimestamp
+    private Instant lastUpdatedOn;
 
     @ManyToOne
     @JoinColumn(name = "collection_id")
