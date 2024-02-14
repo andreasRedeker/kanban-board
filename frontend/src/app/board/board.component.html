@@ -4,7 +4,8 @@
 
         <div class="column">
 
-            <div class="column-name">{{ collection.title }} id: {{ collection.id }} <button class="delete" (click)="deleteCollection(collection.id)">löschen</button></div>
+            <div class="column-name">{{ collection.title }} <button class="delete" (click)="deleteCollection(collection.id)">löschen</button></div>
+            <!-- id: {{ collection.id }} -->
             
             <div class="task-list" id="{{ collection.id }}" cdkDropList [cdkDropListData]="collection.tasks" (cdkDropListDropped)="drop($event)">
 
@@ -14,7 +15,8 @@
 
                     <div class="task" [cdkDragData]="task" cdkDrag>
                         <div class="placeholder" *cdkDragPlaceholder></div>
-                        {{ task.title }} index: {{ task.position }} <button class="delete" (click)="deleteTask(task.id)">löschen</button>
+                        {{ task.title }} <button class="delete" (click)="deleteTask(task.id)">löschen</button>
+                        <!-- index: {{ task.position }} -->
                     </div>
 
                 }

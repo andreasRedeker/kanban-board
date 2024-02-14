@@ -38,19 +38,19 @@ public class KanbanApplication {
             );
 
             collectionService.createCollection(CollectionDTO.builder()
-                    .title("To Do")
+                    .title("📋 To Do")
                     .description("First Description")
                     .boardId(1)
                     .build());
 
             collectionService.createCollection(CollectionDTO.builder()
-                    .title("In Progress")
+                    .title("⌛️In Progress")
                     .description("2nd Description")
                     .boardId(1)
                     .build());
 
             collectionService.createCollection(CollectionDTO.builder()
-                    .title("Done")
+                    .title("✅ Done")
                     .description("3rd Description")
                     .boardId(1)
                     .build());

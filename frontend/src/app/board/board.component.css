@@ -1,6 +1,7 @@
 .board {
     display: flex;
-    overflow-x: auto;
+    /* overflow-x: auto; */
+    overflow-x: visible;
     gap: 1em;
     padding: 1em;
     flex-direction: row;
@@ -13,12 +14,18 @@
     width: 20em;
     background-color: #f0f0f0;
     padding: 1em;
+    border-radius: 24px;
 }
 
 .column-name {
     font-weight: bold;
     margin-bottom: 1rem;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid darkgray;
+    padding-bottom: 0.5em;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .column-name:hover .delete {
@@ -42,6 +49,7 @@
     justify-content: space-between;
     align-items: center;
     gap: 0.5em;
+    cursor: grab;
 }
 
 .placeholder {
@@ -60,6 +68,10 @@
         0 8px 10px 1px rgba(0, 0, 0, 0.14),
         0 3px 14px 2px rgba(0, 0, 0, 0.12);
 }
+
+/* .cdk-drag:active {
+    cursor: grabbing;
+} */
 
 .cdk-drag-animating {
     transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
