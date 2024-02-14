@@ -24,6 +24,9 @@ public class Task {
     private String title;
     private String description;
 
+    @Column(name = "position")
+    private int position;
+
     @CreationTimestamp
     private Instant createdOn;
 

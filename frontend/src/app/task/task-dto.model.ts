@@ -1,6 +1,7 @@
 export class TaskDto {
   id?: string;
   title!: string;
+  position?: number;
   description!: string;
   collectionId!: number;
 

@@ -38,33 +38,49 @@ public class KanbanApplication {
             );
 
             collectionService.createCollection(CollectionDTO.builder()
-                    .title("First Collection")
+                    .title("To Do")
                     .description("First Description")
                     .boardId(1)
                     .build());
 
             collectionService.createCollection(CollectionDTO.builder()
-                    .title("2nd Collection")
+                    .title("In Progress")
                     .description("2nd Description")
+                    .boardId(1)
+                    .build());
+
+            collectionService.createCollection(CollectionDTO.builder()
+                    .title("Done")
+                    .description("3rd Description")
                     .boardId(1)
                     .build());
 
             taskService.createTask(TaskDTO.builder()
                     .title("First Task")
                     .description("First Task Description")
+                    .position(1)
                     .collectionId(1)
                     .build());
 
             taskService.createTask(TaskDTO.builder()
                     .title("Second Task")
                     .description("Second Task Description")
+                    .position(2)
                     .collectionId(1)
                     .build());
 
             taskService.createTask(TaskDTO.builder()
                     .title("Third Task")
                     .description("Third Task Description")
+                    .position(1)
                     .collectionId(2)
+                    .build());
+
+            taskService.createTask(TaskDTO.builder()
+                    .title("4th Task")
+                    .description("Fourth Task Description")
+                    .position(1)
+                    .collectionId(3)
                     .build());
         }
     }

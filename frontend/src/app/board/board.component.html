@@ -6,15 +6,15 @@
 
             <div class="column-name">{{ collection.title }} id: {{ collection.id }} <button class="delete" (click)="deleteCollection(collection.id)">löschen</button></div>
             
-            <div class="task-list" id="{{ collection.id }}" cdkDropList [cdkDropListData]="collection.task" (cdkDropListDropped)="drop($event)">
+            <div class="task-list" id="{{ collection.id }}" cdkDropList [cdkDropListData]="collection.tasks" (cdkDropListDropped)="drop($event)">
 
                 <app-create-task-inline [collectionId]="collection.id" (newTaskEvent)="getBoards()"></app-create-task-inline>
 
-                @for (task of collection.task; track task) {
+                @for (task of collection.tasks; track task) {
 
                     <div class="task" [cdkDragData]="task" cdkDrag>
                         <div class="placeholder" *cdkDragPlaceholder></div>
-                        {{ task.title }} <button class="delete" (click)="deleteTask(task.id)">löschen</button>
+                        {{ task.title }} index: {{ task.position }} <button class="delete" (click)="deleteTask(task.id)">löschen</button>
                     </div>
 
                 }
@@ -35,14 +35,6 @@
     </div>
 
 </div>
-
-<!-- <div>
-    <select>
-        @for (board of boards$ | async; track $index) {
-        <option>{{ board.title }}</option>
-        }
-    </select>
-</div> -->
 
 <!-- CREATE BOARD FORM
 <div>

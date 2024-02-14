@@ -4,6 +4,7 @@ import de.ar.backend.board.Board;
 import de.ar.backend.board.BoardRepository;
 import de.ar.backend.board.BoardService;
 import de.ar.backend.task.TaskService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +37,7 @@ public class CollectionService {
         collectionRepository.save(collection);
     }
 
+    @Transactional
     public void deleteCollection(long collectionId) {
         collectionRepository.deleteById(collectionId);
     }

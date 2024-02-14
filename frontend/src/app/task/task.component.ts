@@ -16,9 +16,9 @@ export class TaskComponent {
   @Input() task: Task = new Task()
 
   // TODO
-  taskDto: TaskDto = new TaskDto('','',1)
+  taskDto: TaskDto = new TaskDto('', '', 1)
 
-  constructor(private taskService: TaskService) {}
+  constructor(private taskService: TaskService) { }
 
   onSubmit() {
     this.taskDto.collectionId = 4;

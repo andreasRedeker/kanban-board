@@ -6,5 +6,5 @@ export class Collection {
     description!: string;
     dateCreated!: string;
     boardId!: number;
-    task!: Task[];
+    tasks!: Task[];
   }

@@ -15,7 +15,7 @@ public class TaskController {
 
     @PostMapping("/task/status")
     public void updateTaskStatus(@RequestBody TaskDTO taskDTO) {
-        taskService.updateTaskStatus(taskDTO);
+        taskService.updateTask(taskDTO);
     }
 
     @DeleteMapping("/task")

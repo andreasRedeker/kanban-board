@@ -40,6 +40,7 @@ public class Collection {
     @JsonIgnore
     private Board board;
 
-    @OneToMany(mappedBy = "collection", cascade =CascadeType.REMOVE)
-    private List<Task> task;
+    @OneToMany(mappedBy = "collection", cascade = CascadeType.REMOVE)
+    @OrderBy("position ASC")
+    private List<Task> tasks;
 }
