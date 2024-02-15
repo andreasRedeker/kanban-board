@@ -1,5 +1,23 @@
 version: '3'
 services:
+  mariadb:
+    image: mariadb:latest
+    environment:
+      MYSQL_DATABASE: kanban_db
+      MYSQL_USER: root
+      MYSQL_ROOT_PASSWORD: my-secret-pw
+    ports:
+      - "3306:3306"
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: ./Dockerfile
+    depends_on:
+      - mariadb
+    ports:
+      - "8080:8080"
+
   frontend:
     build:
       context: ./frontend
@@ -14,21 +32,3 @@ services:
       - "80:80"
     depends_on:
       - backend
-
-  backend:
-    build:
-      context: ./backend
-      dockerfile: ./Dockerfile
-    depends_on:
-      - mariadb
-    ports:
-      - "8080:8080"
-
-  mariadb:
-    image: mariadb:latest
-    environment:
-      MYSQL_DATABASE: kanban_db
-      MYSQL_USER: root
-      MYSQL_ROOT_PASSWORD: my-secret-pw
-    ports:
-      - "3306:3306"
