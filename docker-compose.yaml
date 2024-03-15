@@ -22,13 +22,3 @@ services:
     build:
       context: ./frontend
       dockerfile: ./Dockerfile
-
-  nginx:
-    container_name: middlenginx
-    build:
-      context: ./nginx
-      dockerfile: ./Dockerfile
-    ports:
-      - "80:80"
-    depends_on:
-      - backend
