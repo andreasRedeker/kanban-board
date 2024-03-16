@@ -15,10 +15,10 @@ export class BoardService {
   constructor(private http: HttpClient) { }
 
   getBoards(): Observable<Board[]> {
-    return this.http.get<Board[]>(environment.apiUrl + '/boards')
+    return this.http.get<Board[]>(environment.apiUrl + '/boards', { headers: { responseType: 'application/json' } })
   }
 
   createBoard(boardDto: BoardDto): void {
-    this.http.post<BoardDto>(environment.apiUrl + '/board', boardDto).subscribe()
+    this.http.post<BoardDto>(environment.apiUrl + '/board', boardDto, { headers: { 'Content-Type': 'application/json' } }).subscribe()
   }
 }
