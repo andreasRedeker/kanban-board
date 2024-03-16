@@ -11,13 +11,14 @@ import { CollectionService } from '../collection/collection.service';
 import { CollectionDto } from '../collection/collection-dto.model';
 import { CreateTaskInlineComponent } from "../create-task-inline/create-task-inline.component";
 import { Subscription } from 'rxjs';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
   selector: 'app-board',
   standalone: true,
   templateUrl: './board.component.html',
   styleUrl: './board.component.css',
-  imports: [CommonModule, FormsModule, CollectionComponent, CdkDropList, CdkDrag, CdkDragPlaceholder, CdkDropListGroup, CreateTaskInlineComponent]
+  imports: [CommonModule, FormsModule, CollectionComponent, CdkDropList, CdkDrag, CdkDragPlaceholder, CdkDropListGroup, CreateTaskInlineComponent, MatIconModule]
 })
 export class BoardComponent {
 

@@ -2,36 +2,45 @@
 
     @for (collection of collections; track collection) {
 
-        <div class="column">
+    <div class="column">
 
-            <div class="column-name">{{ collection.title }} <button class="delete" (click)="deleteCollection(collection.id)">löschen</button></div>
-            <!-- id: {{ collection.id }} -->
-            
-            <div class="task-list" id="{{ collection.id }}" cdkDropList [cdkDropListData]="collection.tasks" (cdkDropListDropped)="drop($event)">
-
-                <app-create-task-inline [collectionId]="collection.id" (newTaskEvent)="getBoards()"></app-create-task-inline>
-
-                @for (task of collection.tasks; track task) {
-
-                    <div class="task" [cdkDragData]="task" cdkDrag>
-                        <div class="placeholder" *cdkDragPlaceholder></div>
-                        {{ task.title }} <button class="delete" (click)="deleteTask(task.id)">löschen</button>
-                        <!-- index: {{ task.position }} -->
-                    </div>
-
-                }
-
-            </div>
+        <div class="column-name">
+            {{ collection.title }}
+            <button mat-icon-button class="delete" (click)="deleteCollection(collection.id)">
+                <mat-icon>delete</mat-icon>
+            </button>
         </div>
+
+        <div class="task-list" id="{{ collection.id }}" cdkDropList [cdkDropListData]="collection.tasks"
+            (cdkDropListDropped)="drop($event)">
+
+            <app-create-task-inline [collectionId]="collection.id"
+                (newTaskEvent)="getBoards()"></app-create-task-inline>
+
+            @for (task of collection.tasks; track task) {
+
+            <div class="task" [cdkDragData]="task" cdkDrag>
+                <div class="placeholder" *cdkDragPlaceholder></div>
+                {{ task.title }}
+                <button mat-icon-button class="delete" (click)="deleteTask(task.id)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </div>
+
+            }
+
+        </div>
+    </div>
 
     }
 
     <div class="column">
         <div class="create-wrapper">
-            <input [(ngModel)]="newColumnName" (keydown.enter)="createCollection()" class="column-input" type="text" placeholder="Spalte hinzufügen" />
-            
+            <input [(ngModel)]="newColumnName" (keydown.enter)="createCollection()" class="column-input" type="text"
+                placeholder="Spalte hinzufügen" />
+
             @if (newColumnName.length > 0) {
-                <button class="create-button" (click)="createCollection()">Speichern</button>
+            <button class="create-button" (click)="createCollection()">Speichern</button>
             }
         </div>
     </div>
