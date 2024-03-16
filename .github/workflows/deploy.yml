@@ -1,0 +1,24 @@
+name: Deploy to Ubuntu
+
+on:
+  push:
+    branches:
+      - action
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+
+    steps:
+    - name: Deploying to Digital Ocean Droplet
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        script:
+          cd /home/kanban-board
+          git pull
+          docker compose up --build -d
