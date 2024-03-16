@@ -20,5 +20,6 @@ jobs:
         password: ${{ secrets.PASSWORD }}
         script: |
           cd /home/kanban-board
+          git checkout action
           git pull
           docker compose up --build -d
