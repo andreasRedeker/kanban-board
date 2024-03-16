@@ -3,7 +3,7 @@ name: Deploy to Ubuntu
 on:
   push:
     branches:
-      - action
+      - development
 
 jobs:
   deploy:
@@ -20,6 +20,6 @@ jobs:
         password: ${{ secrets.PASSWORD }}
         script: |
           cd /home/kanban-board
-          git checkout action
+          git checkout development
           git pull
           docker compose up --build -d
