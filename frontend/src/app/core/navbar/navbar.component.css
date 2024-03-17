@@ -1,0 +1,19 @@
+.navbar {
+    padding: 1.25rem;
+    background-color: #f8fafc;
+    display: flex;
+    justify-content: space-between;
+}
+
+.headline {
+    font-weight: 700;
+    user-select: none;
+}
+
+.kanban-logo {
+    color: white;
+    background-color: #88A5BF;
+    border-radius: 0.5rem;
+    margin-right: 0.5rem;
+    padding: 0.5rem;
+}
