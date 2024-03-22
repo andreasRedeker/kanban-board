@@ -24,4 +24,4 @@ jobs:
           git pull
           docker compose up --build -d
           docker image prune
-          yes
+          echo yes
