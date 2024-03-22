@@ -23,3 +23,5 @@ jobs:
           git checkout development
           git pull
           docker compose up --build -d
+          docker image prune
+          y
