@@ -8,6 +8,8 @@ services:
       MYSQL_ROOT_PASSWORD: my-secret-pw
     ports:
       - "3306:3306"
+    volumes:
+      - mariadb-data:/var/lib/mysql
 
   backend:
     build:
