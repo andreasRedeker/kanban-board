@@ -10,7 +10,7 @@ import { TaskDto } from '../task/task-dto.model';
 import { CollectionService } from '../collection/collection.service';
 import { CollectionDto } from '../collection/collection-dto.model';
 import { CreateTaskInlineComponent } from "../create-task-inline/create-task-inline.component";
-import { Subscription } from 'rxjs';
+import { Subscription, filter, map } from 'rxjs';
 import {MatIconModule} from '@angular/material/icon';
 
 @Component({
@@ -40,11 +40,13 @@ export class BoardComponent {
   }
 
   getBoards() {
-    this.sub = this.boardService.getBoards().subscribe(
-      b => {
-        this.collections = b.find(activeBoard => activeBoard.id = 1)?.collectionList || [];
-      }
+    this.sub = this.boardService.getBoards().pipe(
+      map(boards => boards.find(board => board.id === 1)?.collectionList || []),
+      filter(collections => collections !== undefined)
     )
+      .subscribe(collections => {
+        this.collections = collections;
+      });
   }
 
   drop(event: CdkDragDrop<any>) {
