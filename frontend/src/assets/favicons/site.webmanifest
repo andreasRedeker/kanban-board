@@ -1,6 +1,6 @@
 {
-    "name": "",
-    "short_name": "",
+    "name": "Kanban Board",
+    "short_name": "Kanban",
     "icons": [
         {
             "src": "/android-chrome-192x192.png",

@@ -1,5 +1,12 @@
 <div class="navbar">
-    <h1 class="headline"><span class="kanban-logo">看板</span>Board</h1>
+    <a href="/"><h1 class="headline"><span class="kanban-logo">看板</span>Board</h1></a>
+
+    <app-select-board></app-select-board>
+
     <div>
+        <button mat-stroked-button (click)="openCreateBoardDialog()">
+            <mat-icon>add</mat-icon>
+            Board erstellen
+        </button>
     </div>
 </div>

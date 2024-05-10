@@ -1,8 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BoardService } from './board.service';
 import { FormsModule } from '@angular/forms';
-import { Collection } from '../collection/collection.model';
 import { CollectionComponent } from '../collection/collection.component';
 import { CdkDrag, CdkDragDrop, CdkDropList, CdkDragPlaceholder, CdkDropListGroup, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { TaskService } from '../task/task.service';
@@ -10,8 +9,11 @@ import { TaskDto } from '../task/task-dto.model';
 import { CollectionService } from '../collection/collection.service';
 import { CollectionDto } from '../collection/collection-dto.model';
 import { CreateTaskInlineComponent } from "../create-task-inline/create-task-inline.component";
-import { Subscription, filter, map } from 'rxjs';
-import {MatIconModule} from '@angular/material/icon';
+import { Observable } from 'rxjs';
+import { MatIconModule } from '@angular/material/icon';
+import { Board } from './board.model';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
 
 @Component({
   selector: 'app-board',
@@ -21,32 +23,42 @@ import {MatIconModule} from '@angular/material/icon';
   imports: [CommonModule, FormsModule, CollectionComponent, CdkDropList, CdkDrag, CdkDragPlaceholder, CdkDropListGroup, CreateTaskInlineComponent, MatIconModule]
 })
 export class BoardComponent {
+  private destroyRef = inject(DestroyRef);
 
-  collections: Collection[] = [];
+  board$: Observable<Board> = new Observable<Board>;
 
   newColumnName: string = '';
-
-  sub: Subscription = new Subscription();
 
   constructor(private boardService: BoardService, private taskService: TaskService, private collectionService: CollectionService) {
   }
 
   ngOnInit() {
-    this.getBoards()
+    this.board$ = this.boardService.board$;
   }
 
-  ngOnDestroy() {
-    this.sub.unsubscribe();
+  getBoardById(boardId: number): void {
+    this.boardService.getBoardById(boardId);
   }
 
-  getBoards() {
-    this.sub = this.boardService.getBoards().pipe(
-      map(boards => boards.find(board => board.id === 1)?.collectionList || []),
-      filter(collections => collections !== undefined)
-    )
-      .subscribe(collections => {
-        this.collections = collections;
-      });
+  deleteCollection(boardId: number, collectionId: number) {
+    this.collectionService.deleteCollection(collectionId)
+      .pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => this.boardService.getBoardById(boardId))
+  }
+
+  createCollection(boardId: number) {
+    if (this.newColumnName.length > 0) {
+      let collectionDto = new CollectionDto(this.newColumnName, '', boardId)
+      this.collectionService.createCollection(collectionDto)
+        .pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
+          this.newColumnName = ''
+          this.getBoardById(boardId)
+        })
+    }
+  }
+
+  deleteTask(taskId: number, boardId: number) {
+    this.taskService.deleteTask(taskId)
+      .pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => this.getBoardById(boardId))
   }
 
   drop(event: CdkDragDrop<any>) {
@@ -82,23 +94,5 @@ export class BoardComponent {
     }
 
     this.taskService.updateTaskStatus(movedTask)
-  }
-
-  deleteCollection(collectionId: number) {
-    this.collectionService.deleteCollection(collectionId).subscribe(() => this.getBoards())
-  }
-
-  createCollection() {
-    if (this.newColumnName.length > 0) {
-      let collectionDto = new CollectionDto(this.newColumnName, '', this.boardService.activeBoardId)
-      this.collectionService.createCollection(collectionDto).subscribe(s => {
-        this.newColumnName = ''
-        this.getBoards()
-      })
-    }
-  }
-
-  deleteTask(taskId: number) {
-    this.taskService.deleteTask(taskId).subscribe(() => this.getBoards())
   }
 }
