@@ -66,7 +66,7 @@ export class SelectBoardComponent {
   }
 
   confirmDeleteDialog(): void {
-    const message = 'Sämtliche Tasks des Boards werden unwiderruflich gelöscht.';
+    const message = 'Das Board und sämtliche Tasks des Boards werden unwiderruflich gelöscht.';
 
     const dialogData = new ConfirmDialogModel('Löschen bestätigen', message);
 

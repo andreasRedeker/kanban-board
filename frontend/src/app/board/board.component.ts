@@ -13,6 +13,8 @@ import { Observable } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 import { Board } from './board.model';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ConfirmDialogComponent, ConfirmDialogModel } from '../core/confirm-dialog/confirm-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -29,7 +31,11 @@ export class BoardComponent {
 
   newColumnName: string = '';
 
-  constructor(private boardService: BoardService, private taskService: TaskService, private collectionService: CollectionService) {
+  constructor(
+    private boardService: BoardService,
+    private taskService: TaskService,
+    private collectionService: CollectionService,
+    private confirmDialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -94,5 +100,22 @@ export class BoardComponent {
     }
 
     this.taskService.updateTaskStatus(movedTask)
+  }
+
+  confirmDeleteDialog(boardId: number, collectionId: number): void {
+    const message = 'Die Spalte und sämtliche Tasks dieser Spalte werden unwiderruflich gelöscht.';
+
+    const dialogData = new ConfirmDialogModel('Löschen bestätigen', message);
+
+    const dialogRef = this.confirmDialog.open(ConfirmDialogComponent, {
+      maxWidth: '400px',
+      data: dialogData
+    });
+
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      if (dialogResult) {
+        this.deleteCollection(boardId, collectionId);
+      }
+    });
   }
 }

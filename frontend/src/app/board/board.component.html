@@ -8,7 +8,7 @@
 
             <div class="column-name">
                 {{ collection.title }}
-                <button mat-icon-button class="delete" (click)="deleteCollection(board.id, collection.id)">
+                <button mat-icon-button class="delete" (click)="confirmDeleteDialog(board.id, collection.id)">
                     <mat-icon>delete</mat-icon>
                 </button>
             </div>
