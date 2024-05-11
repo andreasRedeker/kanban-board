@@ -20,7 +20,9 @@ export class NavbarComponent {
   constructor(public dialog: MatDialog) { }
 
   openCreateBoardDialog(): void {
-    const dialogRef = this.dialog.open(CreateBoardComponent);
+    const dialogRef = this.dialog.open(CreateBoardComponent, {
+      minWidth: '400px'
+    });
 
     dialogRef.afterClosed().pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
       this.dialog.closeAll();

@@ -10,6 +10,8 @@ import { BoardList } from '../board/board-list.model';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ConfirmDialogComponent, ConfirmDialogModel } from '../core/confirm-dialog/confirm-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -28,7 +30,7 @@ export class SelectBoardComponent {
 
   boardList: BoardList[] = [];
 
-  constructor(private boardService: BoardService) {
+  constructor(private boardService: BoardService, private confirmDialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -61,5 +63,22 @@ export class SelectBoardComponent {
 
   getBoardList() {
     this.boardList$ = this.boardService.getBoardList();
+  }
+
+  confirmDeleteDialog(): void {
+    const message = 'Sämtliche Tasks des Boards werden unwiderruflich gelöscht.';
+
+    const dialogData = new ConfirmDialogModel('Löschen bestätigen', message);
+
+    const dialogRef = this.confirmDialog.open(ConfirmDialogComponent, {
+      maxWidth: '400px',
+      data: dialogData
+    });
+
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      if (dialogResult) {
+        this.deleteBoard()
+      }
+    });
   }
 }
