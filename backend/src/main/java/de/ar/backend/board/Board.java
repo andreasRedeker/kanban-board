@@ -30,6 +30,6 @@ public class Board {
     @UpdateTimestamp
     private Instant lastUpdatedOn;
 
-    @OneToMany(mappedBy = "board")
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
     private List<Collection> collectionList;
 }

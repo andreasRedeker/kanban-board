@@ -1,0 +1,10 @@
+.board-select {
+    min-width: 64px;
+    height: 36px;
+    border: 1px solid;
+    border-color: var(--mdc-outlined-button-outline-color);
+    height: var(--mdc-outlined-button-container-height);
+    border-radius: var(--mdc-outlined-button-container-shape);
+    padding: 0 var(--mat-outlined-button-horizontal-padding, 15px);
+    margin-right: 1em;
+}

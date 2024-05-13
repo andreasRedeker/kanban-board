@@ -1,65 +1,52 @@
 <div class="board" cdkDropListGroup>
 
-    @for (collection of collections; track collection) {
+    @if (board$ | async; as board) {
+
+        @for (collection of board.collectionList; track collection) {
 
         <div class="column">
 
-            <div class="column-name">{{ collection.title }} <button class="delete" (click)="deleteCollection(collection.id)">löschen</button></div>
-            <!-- id: {{ collection.id }} -->
-            
-            <div class="task-list" id="{{ collection.id }}" cdkDropList [cdkDropListData]="collection.tasks" (cdkDropListDropped)="drop($event)">
+            <div class="column-name">
+                {{ collection.title }}
+                <button mat-icon-button class="delete" (click)="confirmDeleteDialog(board.id, collection.id)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </div>
 
-                <app-create-task-inline [collectionId]="collection.id" (newTaskEvent)="getBoards()"></app-create-task-inline>
+            <div class="task-list" id="{{ collection.id }}" cdkDropList [cdkDropListData]="collection.tasks"
+                (cdkDropListDropped)="drop($event)">
+
+                <app-create-task-inline [collectionId]="collection.id"
+                    (newTaskEvent)="getBoardById(board.id)"></app-create-task-inline>
 
                 @for (task of collection.tasks; track task) {
 
-                    <div class="task" [cdkDragData]="task" cdkDrag>
-                        <div class="placeholder" *cdkDragPlaceholder></div>
-                        {{ task.title }} <button class="delete" (click)="deleteTask(task.id)">löschen</button>
-                        <!-- index: {{ task.position }} -->
-                    </div>
+                <div class="task" [cdkDragData]="task" cdkDrag>
+                    <div class="placeholder" *cdkDragPlaceholder></div>
+                    {{ task.title }}
+                    <button mat-icon-button class="delete" (click)="deleteTask(task.id, board.id)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </div>
 
                 }
 
             </div>
         </div>
 
-    }
+        }
 
-    <div class="column">
-        <div class="create-wrapper">
-            <input [(ngModel)]="newColumnName" (keydown.enter)="createCollection()" class="column-input" type="text" placeholder="Spalte hinzufügen" />
-            
-            @if (newColumnName.length > 0) {
-                <button class="create-button" (click)="createCollection()">Speichern</button>
-            }
-        </div>
-    </div>
-
-</div>
-
-<!-- CREATE BOARD FORM
-<div>
-    <form (ngSubmit)="onSubmit()" #boardForm="ngForm">
-        <h2>Create New Board</h2>
-        <input type="text" [(ngModel)]="boardDto.title" placeholder="Title" name="title">
-        <input type="text" [(ngModel)]="boardDto.description" placeholder="Description" name="description">
-        <button class="bg-slate-50 rounded-lg p-2" type="submit">Save</button>
-    </form>
-</div>
--->
-<!--
-<div class="grid grid-flow-col auto-cols-max w-full">
-    @for (collection of collectionList$ | async; track $index) {
-        <app-collection
-            [collection]="collection"
-            cdkDropList
-            id="{{ collection.id }}"
-            [cdkDropListData]="collection"
-            >
-        </app-collection>
-    } @empty {
-        noch keine Spalten angelegt
+        @if (board.id) {
+            <div class="column">
+                <div class="create-wrapper">
+                    <input [(ngModel)]="newColumnName" (keydown.enter)="createCollection(board.id)" class="column-input" type="text"
+                        placeholder="Spalte hinzufügen" />
+        
+                    @if (newColumnName.length > 0) {
+                        <button class="create-button" (click)="createCollection(board.id)">Speichern</button>
+                    }
+                </div>
+            </div>
+        }
     }
 </div>
--->

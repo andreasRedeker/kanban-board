@@ -1,8 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, DestroyRef, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BoardService } from './board.service';
 import { FormsModule } from '@angular/forms';
-import { Collection } from '../collection/collection.model';
 import { CollectionComponent } from '../collection/collection.component';
 import { CdkDrag, CdkDragDrop, CdkDropList, CdkDragPlaceholder, CdkDropListGroup, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { TaskService } from '../task/task.service';
@@ -10,40 +9,67 @@ import { TaskDto } from '../task/task-dto.model';
 import { CollectionService } from '../collection/collection.service';
 import { CollectionDto } from '../collection/collection-dto.model';
 import { CreateTaskInlineComponent } from "../create-task-inline/create-task-inline.component";
-import { Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
+import { MatIconModule } from '@angular/material/icon';
+import { Board } from './board.model';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ConfirmDialogComponent, ConfirmDialogModel } from '../core/confirm-dialog/confirm-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+
 
 @Component({
   selector: 'app-board',
   standalone: true,
   templateUrl: './board.component.html',
   styleUrl: './board.component.css',
-  imports: [CommonModule, FormsModule, CollectionComponent, CdkDropList, CdkDrag, CdkDragPlaceholder, CdkDropListGroup, CreateTaskInlineComponent]
+  imports: [CommonModule, FormsModule, CollectionComponent, CdkDropList, CdkDrag, CdkDragPlaceholder, CdkDropListGroup, CreateTaskInlineComponent, MatIconModule]
 })
 export class BoardComponent {
+  private destroyRef = inject(DestroyRef);
 
-  collections: Collection[] = [];
+  @Input()
+  set id(boardId: number) {
+    this.getBoardById(boardId);
+  }
+
+  board$: Observable<Board> = new Observable<Board>;
 
   newColumnName: string = '';
 
-  sub: Subscription = new Subscription();
-
-  constructor(private boardService: BoardService, private taskService: TaskService, private collectionService: CollectionService) {
+  constructor(
+    private boardService: BoardService,
+    private taskService: TaskService,
+    private collectionService: CollectionService,
+    private confirmDialog: MatDialog) {
   }
 
   ngOnInit() {
-    this.getBoards()
+    this.board$ = this.boardService.board$;
   }
 
-  ngOnDestroy() {
-    this.sub.unsubscribe();
+  getBoardById(boardId: number): void {
+    this.boardService.getBoardById(boardId);
   }
 
-  getBoards() {
-    this.sub = this.boardService.getBoards().subscribe(
-      b => {
-        this.collections = b.find(activeBoard => activeBoard.id = 1)?.collectionList || [];
-      }
-    )
+  deleteCollection(boardId: number, collectionId: number) {
+    this.collectionService.deleteCollection(collectionId)
+      .pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => this.boardService.getBoardById(boardId))
+  }
+
+  createCollection(boardId: number) {
+    if (this.newColumnName.length > 0) {
+      let collectionDto = new CollectionDto(this.newColumnName, '', boardId)
+      this.collectionService.createCollection(collectionDto)
+        .pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
+          this.newColumnName = ''
+          this.getBoardById(boardId)
+        })
+    }
+  }
+
+  deleteTask(taskId: number, boardId: number) {
+    this.taskService.deleteTask(taskId)
+      .pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => this.getBoardById(boardId))
   }
 
   drop(event: CdkDragDrop<any>) {
@@ -81,21 +107,20 @@ export class BoardComponent {
     this.taskService.updateTaskStatus(movedTask)
   }
 
-  deleteCollection(collectionId: number) {
-    this.collectionService.deleteCollection(collectionId).subscribe(() => this.getBoards())
-  }
+  confirmDeleteDialog(boardId: number, collectionId: number): void {
+    const message = 'Die Spalte und sämtliche Tasks dieser Spalte werden unwiderruflich gelöscht.';
 
-  createCollection() {
-    if (this.newColumnName.length > 0) {
-      let collectionDto = new CollectionDto(this.newColumnName, '', this.boardService.activeBoardId)
-      this.collectionService.createCollection(collectionDto).subscribe(s => {
-        this.newColumnName = ''
-        this.getBoards()
-      })
-    }
-  }
+    const dialogData = new ConfirmDialogModel('Löschen bestätigen', message);
 
-  deleteTask(taskId: number) {
-    this.taskService.deleteTask(taskId).subscribe(() => this.getBoards())
+    const dialogRef = this.confirmDialog.open(ConfirmDialogComponent, {
+      maxWidth: '400px',
+      data: dialogData
+    });
+
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      if (dialogResult) {
+        this.deleteCollection(boardId, collectionId);
+      }
+    });
   }
 }

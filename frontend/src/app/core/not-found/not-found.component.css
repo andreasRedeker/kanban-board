@@ -1,0 +1,6 @@
+.wrapper {
+    height: calc(100vh - var(--navbar-height));
+    width: 100%;
+    display: grid;
+    place-content: center;
+}

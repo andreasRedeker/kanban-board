@@ -1,0 +1,18 @@
+<h2 mat-dialog-title>Board erstellen</h2>
+<mat-dialog-content>
+    <form (ngSubmit)="onSubmit()" #boardForm="ngForm">
+        <mat-form-field>
+            <mat-label>Titel</mat-label>
+            <input #boardTitle="ngModel" matInput type="text" [(ngModel)]="boardDto.title" placeholder="Title" name="title" required>
+        </mat-form-field>
+        <br>
+        <mat-form-field>
+            <mat-label>Beschreibung</mat-label>
+            <input matInput type="text" [(ngModel)]="boardDto.description" placeholder="Description" name="description">
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button cdkFocusInitial [mat-dialog-close]>Abbrechen</button>
+    <button mat-button [mat-dialog-close] [disabled]="boardTitle.invalid" (click)="onSubmit()">Speichern</button>
+</mat-dialog-actions>

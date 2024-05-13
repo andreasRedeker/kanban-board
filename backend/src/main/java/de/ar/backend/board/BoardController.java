@@ -12,14 +12,22 @@ public class BoardController {
     @Autowired
     private BoardService boardService;
 
-    @GetMapping("/board/{boardId}")
-    public Board getBoardById(@PathVariable long boardId) {
+    @GetMapping("/board")
+    public Board getBoardById(@RequestParam long boardId) {
         return boardService.getBoardById(boardId);
     }
 
     @PostMapping("/board")
-    public void createBoard(@RequestBody BoardDTO boardDTO) { boardService.createBoard(boardDTO);}
+    public Board createBoard(@RequestBody BoardDTO boardDTO) { return boardService.createBoard(boardDTO);}
+
+    @DeleteMapping("/board")
+    public void deleteBoard(@RequestParam long boardId) {
+        boardService.deleteBoardById(boardId);
+    }
 
     @GetMapping("/boards")
     public List<Board> getAllBoards() { return boardService.getAllBoards(); }
+
+    @GetMapping("/board-list")
+    public List<BoardResponse> getBoardList() { return boardService.getBoardList(); }
 }

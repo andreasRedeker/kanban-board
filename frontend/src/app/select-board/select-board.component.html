@@ -1,0 +1,26 @@
+<!-- <mat-form-field appearance="outline">
+
+  <mat-label>Board auswählen</mat-label>
+  <mat-select [(value)]="selected" (selectionChange)="selectionEvent($event)">
+    @for (board of boardList$ | async; track board) {
+    <mat-option [value]="board">{{ board.title }}</mat-option>
+    }
+  </mat-select>
+</mat-form-field> -->
+
+<div>
+
+  @if (boardList.length > 0) {
+    <select class="board-select mobile-hidden" matNativeControl (change)="getSelectedBoard($event)">
+      <!-- @for (board of boardList$ | async; track board) { -->
+      @for (board of boardList; track board) {
+      <option [value]="board.id" [selected]="selected.id == board.id">{{ board.title }}</option>
+      }
+    </select>
+
+    <button mat-stroked-button class="mobile-hidden" (click)="confirmDeleteDialog()">
+      <mat-icon>delete</mat-icon>Board löschen
+    </button>
+  }
+
+</div>

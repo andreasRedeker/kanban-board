@@ -1,0 +1,53 @@
+.wrapper {
+    padding: 2em;
+    max-width: 100%;
+    overflow: auto;
+    height: calc(100vh - var(--navbar-height));
+    background-image: url(/assets/fuji.webp);
+    background-size: cover;
+    background-position-y: center;
+}
+
+h1 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+ul {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    flex-wrap: wrap;
+}
+
+li {
+    display: grid;
+    place-content: center;
+    width: 20rem;
+    height: 10rem;
+    padding: 0.75rem;
+    background-color: var(--primary-color-light);
+    border-radius: 12px;
+    color: #2d5375;
+    transition: ease-in-out 250ms;
+}
+
+li:hover {
+    background-color: #88A5BF;
+    color: white;
+}
+
+li .title {
+    font-size: 1.25rem;
+    text-align: center;
+}
+
+li .description {
+    font-size: 1rem;
+    text-align: center;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    -webkit-box-orient: vertical;
+}

@@ -1,13 +1,15 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { DestroyRef, Injectable, inject } from '@angular/core';
 import { TaskDto } from './task-dto.model';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskService {
+  private destroyRef = inject(DestroyRef);
 
   constructor(private http: HttpClient) { }
 
@@ -16,7 +18,8 @@ export class TaskService {
   }
 
   updateTaskStatus(taskDto: TaskDto): void {
-    this.http.post<TaskDto>(environment.apiUrl + '/task/status', taskDto, { headers: { 'Content-Type': 'application/json' } }).subscribe()
+    this.http.post<TaskDto>(environment.apiUrl + '/task/status', taskDto, { headers: { 'Content-Type': 'application/json' } })
+      .pipe(takeUntilDestroyed(this.destroyRef)).subscribe()
   }
 
   deleteTask(taskId: number): Observable<void> {
