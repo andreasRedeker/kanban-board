@@ -1,12 +1,17 @@
 <div class="navbar">
-    <a href="/"><h1 class="headline"><span class="kanban-logo">看板</span>Board</h1></a>
+    <div class="front">
+        <a routerLink="/">
+            <h1 class="headline"><span class="kanban-logo">看板</span>Board</h1>
+        </a>
 
-    <app-select-board></app-select-board>
+        @if (router.url.includes('board') && !router.url.includes('boards')) {
+            <app-select-board></app-select-board>
+        }
+    </div>
 
     <div>
-        <button mat-stroked-button (click)="openCreateBoardDialog()">
-            <mat-icon>add</mat-icon>
-            Board erstellen
+        <button mat-stroked-button class="mobile-hidden" (click)="openCreateBoardDialog()">
+                <mat-icon>add</mat-icon>Board erstellen
         </button>
     </div>
 </div>

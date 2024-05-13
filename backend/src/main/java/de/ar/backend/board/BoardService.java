@@ -1,5 +1,6 @@
 package de.ar.backend.board;
 
+import de.ar.backend.exception.BoardNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,7 @@ public class BoardService {
 
     public Board getBoardById(long boardId) {
         Optional<Board> board = boardRepository.findById(boardId);
-        return board.orElse(null);
+        return board.orElseThrow(() -> new BoardNotFoundException(boardId));
     }
 
     public List<Board> getAllBoards() {
@@ -29,9 +30,10 @@ public class BoardService {
         List<Board> boardCollection = new ArrayList<>();
         boardRepository.findAll().forEach(boardCollection::add);
         return boardCollection.stream()
-                .map(board -> new BoardResponse(board.getId(), board.getTitle()))
+                .map(board -> new BoardResponse(board.getId(), board.getTitle(), board.getDescription()))
                 .collect(Collectors.toList());
     }
+
     public Board createBoard(BoardDTO boardDTO) {
         Board board = Board.builder().title(boardDTO.getTitle()).description(boardDTO.getDescription()).build();
         return boardRepository.save(board);

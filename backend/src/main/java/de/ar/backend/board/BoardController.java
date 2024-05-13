@@ -24,7 +24,7 @@ public class BoardController {
     public void deleteBoard(@RequestParam long boardId) {
         boardService.deleteBoardById(boardId);
     }
-    
+
     @GetMapping("/boards")
     public List<Board> getAllBoards() { return boardService.getAllBoards(); }
 

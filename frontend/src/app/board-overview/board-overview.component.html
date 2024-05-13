@@ -1,0 +1,17 @@
+<div class="wrapper">
+    <h1>Board auswählen</h1>
+    @if (boardList$ | async; as boards) {
+        <ul>
+            @for (board of boards; track board.id) {
+                <a [routerLink]="['/board', board.id]">
+                    <li>
+                        <p class="title">{{ board.title }}</p>
+                        <p class="description">{{ board.description }}</p>
+                    </li>
+                </a>
+            } @empty {
+                <h2>Noch kein Board vorhanden. Erstelle jetzt dein erstes Board.</h2>
+            }
+        </ul>
+    }
+</div>

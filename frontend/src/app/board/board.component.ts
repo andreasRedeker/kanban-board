@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject } from '@angular/core';
+import { Component, DestroyRef, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BoardService } from './board.service';
 import { FormsModule } from '@angular/forms';
@@ -26,6 +26,11 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class BoardComponent {
   private destroyRef = inject(DestroyRef);
+
+  @Input()
+  set id(boardId: number) {
+    this.getBoardById(boardId);
+  }
 
   board$: Observable<Board> = new Observable<Board>;
 

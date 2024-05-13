@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class BoardResponse {
     private long id;
     private String title;
+    private String description;
 }

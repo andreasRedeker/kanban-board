@@ -1,6 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
 @tailwind base;
-@tailwind components;
-@tailwind utilities;
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+:root {
+    --primary-color: #88A5BF;
+    --primary-color-light: #f8fafc;
+    --navbar-height: 78px;
+}
+
+@media only screen and (max-width: 600px) {
+    .mobile-hidden {
+        display: none;
+    }
+}

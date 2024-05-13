@@ -12,6 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ConfirmDialogComponent, ConfirmDialogModel } from '../core/confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -24,13 +25,13 @@ import { MatDialog } from '@angular/material/dialog';
 export class SelectBoardComponent {
   private destroyRef = inject(DestroyRef);
 
-  selected: BoardList = { id: 0, title: '' };
+  selected: BoardList = { id: 0, title: '', description: '' };
 
   boardList$: Observable<BoardList[]> = new Observable<BoardList[]>;
 
   boardList: BoardList[] = [];
 
-  constructor(private boardService: BoardService, private confirmDialog: MatDialog) {
+  constructor(private boardService: BoardService, private confirmDialog: MatDialog, private router: Router) {
   }
 
   ngOnInit() {
@@ -38,26 +39,26 @@ export class SelectBoardComponent {
     this.boardService.getBoardList().pipe(takeUntilDestroyed(this.destroyRef)).subscribe(boardList => this.boardList = boardList);
     this.boardService.board$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(board => {
       if (board && board.id) {
-        this.selected = { id: board.id, title: board.title }
+        this.selected = { id: board.id, title: board.title, description: board.description }
       }
     });
-    this.boardService.getBoardById(30); // todo which board should be loaded first
   }
 
   getSelectedBoard(event: Event): void {
-    const id = (event.target as HTMLSelectElement).value as unknown as number;
-    this.boardService.getBoardById(id);
+    const boardId = (event.target as HTMLSelectElement).value as unknown as number;
+    this.router.navigate(['board', boardId]);
   }
 
-  selectionEvent(event: MatSelectChange) {
-    this.boardService.getBoardById(event.value.id);
-  }
+  // selectionEvent(event: MatSelectChange) {
+  //   // this.boardService.getBoardById(event.value.id);
+  //   this.router.navigate(['board', event.value.id]);
+  // }
 
   deleteBoard(): void {
     this.boardService.deleteBoard(this.selected.id).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res => {
       // this.getBoardList();
       this.boardService.loadBoardList();
-      this.boardService.getBoardById(30); // todo: redirect to board overview
+      this.router.navigate(['']);
     });
   }
 

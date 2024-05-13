@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { DestroyRef, Injectable, inject } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, throwError } from 'rxjs';
 import { Board } from './board.model';
 import { BoardDto } from './board-dto.model';
 import { environment } from '../../environments/environment';
 import { BoardList } from './board-list.model';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,7 @@ export class BoardService {
     return this.boardList;
   }
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
   }
 
   init() {
@@ -46,8 +47,12 @@ export class BoardService {
 
   getBoardById(boardId: number): void {
     this.http.get<Board>(environment.apiUrl + '/board', { params: { boardId }, headers: { 'Content-Type': 'application/json' } })
-      .pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
-        board => this.board.next(board)
+      .pipe(
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe(
+        board => this.board.next(board),
+        error => this.handleError(error)
       );
   }
 
@@ -55,13 +60,21 @@ export class BoardService {
     this.http.post<Board>(environment.apiUrl + '/board', boardDto, { headers: { 'Content-Type': 'application/json' } })
       .pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
         board => {
-          this.board.next(board);
-          this.loadBoardList()
+          this.router.navigate(['board', board.id])
         }
       )
   }
 
   deleteBoard(boardId: number): Observable<void> {
     return this.http.delete<void>(environment.apiUrl + '/board', { params: { boardId }, headers: { 'Content-Type': 'application/json' } })
+  }
+
+  private handleError(error: any) {
+    if (error.status === 404) {
+      // show special error page in the future
+      this.router.navigate(['error']);
+    } else {
+      this.router.navigate(['error']);
+    }
   }
 }

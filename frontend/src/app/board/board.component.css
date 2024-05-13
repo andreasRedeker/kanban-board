@@ -7,7 +7,7 @@
     align-items: flex-start;
     max-width: 100%;
     overflow: auto;
-    height: calc(100vh - 78px);
+    height: calc(100vh - var(--navbar-height));
     background-image: url(/assets/fuji.webp);
     background-size: cover;
     background-position-y: center;
