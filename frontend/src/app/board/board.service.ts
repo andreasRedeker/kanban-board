@@ -60,6 +60,7 @@ export class BoardService {
     this.http.post<Board>(environment.apiUrl + '/board', boardDto, { headers: { 'Content-Type': 'application/json' } })
       .pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
         board => {
+          this.loadBoardList()
           this.router.navigate(['board', board.id])
         }
       )
