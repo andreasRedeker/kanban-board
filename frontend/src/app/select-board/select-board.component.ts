@@ -13,6 +13,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ConfirmDialogComponent, ConfirmDialogModel } from '../core/confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { EditBoardComponent } from '../edit-board/edit-board.component';
 
 
 @Component({
@@ -45,6 +46,7 @@ export class SelectBoardComponent {
   }
 
   getSelectedBoard(event: Event): void {
+    this.boardService.clearBoard();
     const boardId = (event.target as HTMLSelectElement).value as unknown as number;
     this.router.navigate(['board', boardId]);
   }
@@ -66,6 +68,18 @@ export class SelectBoardComponent {
     this.boardList$ = this.boardService.getBoardList();
   }
 
+  editBoardDialog(): void {
+    const dialogRef = this.confirmDialog.open(EditBoardComponent, {
+      maxWidth: '400px',
+      data: this.selected,
+    });
+
+    dialogRef.afterClosed().pipe(takeUntilDestroyed(this.destroyRef)).subscribe(dialogResult => {
+      if (dialogResult) {
+      }
+    });
+  }
+
   confirmDeleteDialog(): void {
     const message = 'Das Board und sämtliche Tasks des Boards werden unwiderruflich gelöscht.';
 
@@ -76,7 +90,7 @@ export class SelectBoardComponent {
       data: dialogData
     });
 
-    dialogRef.afterClosed().subscribe(dialogResult => {
+    dialogRef.afterClosed().pipe(takeUntilDestroyed(this.destroyRef)).subscribe(dialogResult => {
       if (dialogResult) {
         this.deleteBoard()
       }

@@ -44,6 +44,7 @@ export class BoardComponent {
   }
 
   ngOnInit() {
+    this.boardService.clearBoard();
     this.board$ = this.boardService.board$;
   }
 
