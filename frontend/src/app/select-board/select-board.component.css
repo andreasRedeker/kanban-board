@@ -8,3 +8,7 @@
     padding: 0 var(--mat-outlined-button-horizontal-padding, 15px);
     margin-right: 1em;
 }
+
+button {
+    margin-right: 1em;
+}

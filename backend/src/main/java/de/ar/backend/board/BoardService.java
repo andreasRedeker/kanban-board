@@ -39,6 +39,14 @@ public class BoardService {
         return boardRepository.save(board);
     }
 
+    public Board updateBoard(Board updatedBoard) {
+        return boardRepository.findById(updatedBoard.getId()).map(b -> {
+            b.setTitle(updatedBoard.getTitle());
+            b.setDescription(updatedBoard.getDescription());
+            return boardRepository.save(b);
+        }).orElseThrow(() -> new BoardNotFoundException(updatedBoard.getId()));
+    }
+
     public void deleteBoardById(Long boardId) {
         boardRepository.deleteById(boardId);
     }

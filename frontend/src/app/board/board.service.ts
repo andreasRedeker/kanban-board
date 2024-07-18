@@ -60,6 +60,17 @@ export class BoardService {
     this.http.post<Board>(environment.apiUrl + '/board', boardDto, { headers: { 'Content-Type': 'application/json' } })
       .pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
         board => {
+          this.loadBoardList()
+          this.router.navigate(['board', board.id])
+        }
+      )
+  }
+
+  updateBoard(board: Board): void {
+    this.http.put<Board>(environment.apiUrl + '/board', board, { headers: { 'Content-Type': 'application/json' } })
+      .pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
+        board => {
+          this.loadBoardList()
           this.router.navigate(['board', board.id])
         }
       )
@@ -67,6 +78,10 @@ export class BoardService {
 
   deleteBoard(boardId: number): Observable<void> {
     return this.http.delete<void>(environment.apiUrl + '/board', { params: { boardId }, headers: { 'Content-Type': 'application/json' } })
+  }
+
+  clearBoard() {
+    this.board.next(new Board());
   }
 
   private handleError(error: any) {

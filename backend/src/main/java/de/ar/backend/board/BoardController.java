@@ -20,6 +20,9 @@ public class BoardController {
     @PostMapping("/board")
     public Board createBoard(@RequestBody BoardDTO boardDTO) { return boardService.createBoard(boardDTO);}
 
+    @PutMapping("/board")
+    public Board updateBoard(@RequestBody Board board) { return boardService.updateBoard(board);}
+
     @DeleteMapping("/board")
     public void deleteBoard(@RequestParam long boardId) {
         boardService.deleteBoardById(boardId);
